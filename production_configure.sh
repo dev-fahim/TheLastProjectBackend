@@ -38,7 +38,7 @@ EOL
 
 sudo touch /etc/systemd/system/gunicorn.service
 
-sudo cat >> <<EOL
+sudo cat >> /etc/systemd/system/gunicorn.service <<EOL
 [Unit]
 Description=gunicorn daemon
 Requires=gunicorn.socket
