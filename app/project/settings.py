@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p*zg-1^wq_(tj4muygp7r(io^_oxp6v=r4osv3ce04s)q+tt-+'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -97,12 +97,12 @@ DATABASES = {
 if DEBUG is False:
     DATABASES = {
         'default': {
-            'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
-            'NAME': os.environ.get('SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
-            'USER': os.environ.get('SQL_USER', 'user'),
-            'PASSWORD': os.environ.get('SQL_PASSWORD', 'password'),
-            'HOST': os.environ.get('SQL_HOST', 'localhost'),
-            'PORT': os.environ.get('SQL_PORT', '5432'),
+            'ENGINE': os.environ.get('SQL_ENGINE'),
+            'NAME': os.environ.get('SQL_NAME'),
+            'USER': os.environ.get('SQL_USER'),
+            'PASSWORD': os.environ.get('SQL_PASSWORD'),
+            'HOST': os.environ.get('SQL_HOST'),
+            'PORT': '',
         }
     }
 

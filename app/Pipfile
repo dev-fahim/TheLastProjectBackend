@@ -26,6 +26,8 @@ django-heroku = "*"
 gunicorn = "*"
 Django = "==2.2.4"
 PyJWT = "==1.7.1"
+psycopg2-binary = "*"
+psycopg2 = "*"
 
 [requires]
-python_version = "3.7.4"
+python_version = "3.6"
