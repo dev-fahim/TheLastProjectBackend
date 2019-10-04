@@ -23,6 +23,8 @@ pipenv run python manage.py makemigrations
 pipenv run python manage.py migrate
 pipenv run python manage.py collectstatic
 
+sudo rm /etc/systemd/system/gunicorn.socket
+
 sudo touch /etc/systemd/system/gunicorn.socket
 
 sudo cat >> /etc/systemd/system/gunicorn.socket <<EOL
@@ -35,6 +37,8 @@ ListenStream=/run/gunicorn.sock
 [Install]
 WantedBy=sockets.target
 EOL
+
+sudo rm /etc/systemd/system/gunicorn.service
 
 sudo touch /etc/systemd/system/gunicorn.service
 
@@ -76,6 +80,8 @@ sudo apt-key fingerprint ABF5BD827BD9BF62
 
 sudo apt update
 sudo apt install nginx -y
+
+sudo rm /etc/nginx/conf.d/boka.conf
 
 sudo touch /etc/nginx/conf.d/boka.conf
 
