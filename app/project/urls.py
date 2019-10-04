@@ -19,6 +19,8 @@ from rest_framework_jwt.views import obtain_jwt_token
 from django.conf import settings
 from django.views.generic import TemplateView
 from django.shortcuts import render
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 def handler404(request, exception):
@@ -40,7 +42,7 @@ urlpatterns = [
         path('sumup/', include('sumup.api', namespace='sumup'), name='sumup'),
     ])),
     re_path(r"^$", TemplateView.as_view(template_name='index.html')),
-]
+]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
