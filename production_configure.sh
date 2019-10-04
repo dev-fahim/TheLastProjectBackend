@@ -3,6 +3,7 @@
 sudo apt update
 sudo apt install python3-pip python3-dev libpq-dev curl -y
 
+sudo rm /etc/apt/sources.list.d/pgdg.list
 sudo touch /etc/apt/sources.list.d/pgdg.list
 sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
 
@@ -72,6 +73,7 @@ systemctl daemon-reload
 # installing Nginx Frontend Server
 sudo apt install curl gnupg2 ca-certificates lsb-release -y
 
+sudo rm /etc/apt/sources.list.d/nginx.list
 echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
     | sudo tee /etc/apt/sources.list.d/nginx.list
 
@@ -96,7 +98,7 @@ server {
     }
 
     location / {
-        proxy_set_header Host $http_host;
+        proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
