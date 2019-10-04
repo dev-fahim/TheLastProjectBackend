@@ -1,7 +1,7 @@
 #!/bin/sh
 
 sudo apt update
-sudo apt install python3-pip python3-dev libpq-dev curl
+sudo apt install python3-pip python3-dev libpq-dev curl -y
 
 sudo touch /etc/apt/sources.list.d/pgdg.list
 sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
@@ -9,7 +9,7 @@ sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /et
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt update
 
-sudo apt install postgresql-11 postgresql-client-11
+sudo apt install postgresql-11 postgresql-client-11 -y
 
 psql -U postgres postgres database.sql
 
@@ -74,7 +74,7 @@ curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo apt-key add -
 sudo apt-key fingerprint ABF5BD827BD9BF62
 
 sudo apt update
-sudo apt install nginx
+sudo apt install nginx -y
 
 sudo nano touch /etc/nginx/conf.d/boka.conf
 
