@@ -154,10 +154,6 @@ STATIC_URL = '/assets/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "statics"),
-]
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
