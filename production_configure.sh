@@ -96,7 +96,7 @@ server {
     server_name 157.245.106.188;
 
     location = /favicon.ico { access_log off; log_not_found off; }
-    location /statics/ {
+    location /assets/ {
         root /home/ubuntu/app/ThelastProjectBackend/app/statics;
     }
 
