@@ -86,7 +86,10 @@ sudo apt install nginx -y
 sudo rm /etc/nginx/conf.d/boka.conf
 
 sudo touch /etc/nginx/conf.d/boka.conf
-
+host = '$host'
+remote_addr = '$remote_addr'
+proxy_add_x_forwarded_for = '$proxy_add_x_forwarded_for'
+scheme = '$scheme'
 sudo cat >> /etc/nginx/conf.d/boka.conf <<EOL
 server {
     listen 80;
@@ -94,7 +97,7 @@ server {
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /statics/ {
-        root /home/ubuntu/app/ThelastProjectBackend/app;
+        root /home/ubuntu/app/ThelastProjectBackend/app/statics;
     }
 
     location / {
