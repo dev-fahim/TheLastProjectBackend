@@ -57,12 +57,13 @@ ExecStart=/usr/local/bin/pipenv run gunicorn \
 [Install]
 WantedBy=multi-user.target
 EOL
-
+sudo systemctl daemon-reload
 sudo systemctl start gunicorn.socket
 sudo systemctl enable gunicorn.socket
 
 sudo systemctl daemon-reload
 sudo systemctl restart gunicorn
+systemctl daemon-reload
 
 # installing Nginx Frontend Server
 sudo apt install curl gnupg2 ca-certificates lsb-release -y
@@ -76,7 +77,7 @@ sudo apt-key fingerprint ABF5BD827BD9BF62
 sudo apt update
 sudo apt install nginx -y
 
-sudo nano touch /etc/nginx/conf.d/boka.conf
+sudo touch /etc/nginx/conf.d/boka.conf
 
 sudo cat >> /etc/nginx/conf.d/boka.conf <<EOL
 server {
