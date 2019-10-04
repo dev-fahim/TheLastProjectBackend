@@ -42,7 +42,7 @@ urlpatterns = [
         path('sumup/', include('sumup.api', namespace='sumup'), name='sumup'),
     ])),
     re_path(r"^$", TemplateView.as_view(template_name='index.html')),
-]
+]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar

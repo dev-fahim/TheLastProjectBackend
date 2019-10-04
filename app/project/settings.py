@@ -152,9 +152,7 @@ USE_TZ = True
 
 STATIC_URL = '/assets/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "statics"),
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
