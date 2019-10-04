@@ -86,12 +86,25 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+if DEBUG is False:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
+            'NAME': os.environ.get('SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
+            'USER': os.environ.get('SQL_USER', 'user'),
+            'PASSWORD': os.environ.get('SQL_PASSWORD', 'password'),
+            'HOST': os.environ.get('SQL_HOST', 'localhost'),
+            'PORT': os.environ.get('SQL_PORT', '5432'),
+        }
+    }
 
 
 # Password validation
@@ -138,6 +151,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/assets/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "statics"),
+]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -191,12 +210,4 @@ REST_USE_JWT = True
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "statics"),
-]
-
 CORS_ORIGIN_ALLOW_ALL = True
-import django_heroku
-django_heroku.settings(locals())
-
-
