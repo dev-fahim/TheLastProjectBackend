@@ -11,7 +11,7 @@ sudo apt update
 
 sudo apt install postgresql-11 postgresql-client-11 -y
 
-sudo psql -U postgres database.sql
+sudo psql -U postgres -d postgres -a -f database.sql
 
 sudo -H pip3 install --upgrade pip
 sudo -H pip3 install pipenv
