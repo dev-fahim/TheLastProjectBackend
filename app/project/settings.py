@@ -191,9 +191,9 @@ JWT_AUTH = {
 
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,
-    'JWT_PUBLIC_KEY': None,
-    'JWT_PRIVATE_KEY': None,
-    'JWT_ALGORITHM': 'HS256',
+    'JWT_PUBLIC_KEY': open(os.environ.get('PUBLIC_KEY')).read(),
+    'JWT_PRIVATE_KEY': open(os.environ.get('PRIVATE_KEY')).read(),
+    'JWT_ALGORITHM': 'RS256',
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
