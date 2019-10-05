@@ -9,7 +9,7 @@ app_gunicorn_socket_file=${app_gunicorn_dir}gunicorn.socket
 app_gunicorn_service_file=${app_gunicorn_dir}gunicorn.service
 app_nginx_dir=${work_dir}nginx/
 app_nginx_conf_file=${app_nginx_dir}boka.conf
-app_pg_conf_dir=${app_dir}pg_conf/
+app_pg_conf_dir=${work_dir}pg_conf/
 app_pg_conf_file=${app_pg_conf_dir}pg_hba.conf
 
 nginx_conf_dir=/etc/nginx/conf.d/
