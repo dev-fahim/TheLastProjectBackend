@@ -1,33 +1,33 @@
 #!/bin/sh
 
 home_dir=/home/ubuntu/
-work_dir = $home_dir + app/TheLastProject/
-app_dir = $work_dir + app/
+work_dir=$home_dir+app/TheLastProject/
+app_dir=$work_dir+app/
 
-app_gunicorn_dir = $work_dir + gunicorn_files/
-app_gunicorn_socket_file = $app_gunicorn_dir + gunicorn.socket
-app_gunicorn_service_file = $app_gunicorn_dir + gunicorn.service
-app_nginx_dir = $work_dir + nginx/
-app_nginx_conf_file = $app_nginx_dir + boka.conf
-app_pg_conf_dir = $app_dir + pg_conf
-app_pg_conf_file = $app_pg_conf_dir + pg_hba.conf
+app_gunicorn_dir=$work_dir+gunicorn_files/
+app_gunicorn_socket_file=$app_gunicorn_dir+gunicorn.socket
+app_gunicorn_service_file=$app_gunicorn_dir+gunicorn.service
+app_nginx_dir=$work_dir+nginx/
+app_nginx_conf_file=$app_nginx_dir+boka.conf
+app_pg_conf_dir=$app_dir+pg_conf
+app_pg_conf_file=$app_pg_conf_dir+pg_hba.conf
 
-nginx_conf_dir = /etc/nginx/conf.d/
+nginx_conf_dir=/etc/nginx/conf.d/
 
-nginx_boka_conf_dir = $nginx_conf_dir + boka.conf
+nginx_boka_conf_dir=$nginx_conf_dir+boka.conf
 
-source_list_dir = /etc/apt/sources.list.d/
-systemd_system_dir = etc/systemd/system/
+source_list_dir=/etc/apt/sources.list.d/
+systemd_system_dir=etc/systemd/system/
 
-gunicorn_system_socket_file = $systemd_system_dir + gunicorn.socket
-gunicorn_system_service_file = $systemd_system_dir + gunicorn.service
+gunicorn_system_socket_file=$systemd_system_dir+gunicorn.socket
+gunicorn_system_service_file=$systemd_system_dir+gunicorn.service
 
-pgdg_source_list_file = $source_list_dir + pgdg.list
-nginx_source_list_file = $source_list_dir + nginx.list
+pgdg_source_list_file=$source_list_dir+pgdg.list
+nginx_source_list_file=$source_list_dir+nginx.list
 
-pg_main_conf_dir = /etc/postgresql/11/main/
+pg_main_conf_dir=/etc/postgresql/11/main/
 
-pg_hba_conf_file = $pg_main_conf_dir + pg_hba.conf
+pg_hba_conf_file=$pg_main_conf_dir+pg_hba.conf
 
 sudo apt update
 sudo apt install python3-pip python3-dev libpq-dev curl -y
