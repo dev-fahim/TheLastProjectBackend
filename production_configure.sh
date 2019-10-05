@@ -57,7 +57,7 @@ cd $app_dir
 pipenv install --skip-lock
 pipenv run python manage.py makemigrations
 pipenv run python manage.py migrate
-pipenv run python manage.py collectstatic
+pipenv run python manage.py collectstatic --noinput <<<yes
 
 printf "\nConfiguring Gunicorn as a system service for Django application...\n\n"
 sudo cp -f $app_gunicorn_socket_file $gunicorn_system_socket_file
