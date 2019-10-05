@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['157.245.106.188']
 
 
 # Application definition
@@ -201,9 +201,6 @@ JWT_AUTH = {
 
 }
 
-
 REST_USE_JWT = True
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-
-CORS_ORIGIN_ALLOW_ALL = True

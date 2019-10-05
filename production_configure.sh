@@ -1,81 +1,78 @@
 #!/bin/sh
 
+home_dir = '/home/ubuntu/'
+work_dir = $home_dir + 'app/TheLastProject/'
+app_dir = $work_dir + 'app/'
+
+app_gunicorn_dir = $work_dir + 'gunicorn_files/'
+app_gunicorn_socket_file = $app_gunicorn_dir + 'gunicorn.socket'
+app_gunicorn_service_file = $app_gunicorn_dir + 'gunicorn.service'
+app_nginx_dir = $work_dir + 'nginx/'
+app_nginx_conf_file = $app_nginx_dir + 'boka.conf' 
+app_pg_conf_dir = $app_dir + 'pg_conf'
+app_pg_conf_file = $app_pg_conf_dir + 'pg_hba.conf'
+
+nginx_conf_dir = '/etc/nginx/conf.d/'
+
+nginx_boka_conf_dir = $nginx_conf_dir + 'boka.conf'
+
+source_list_dir = '/etc/apt/sources.list.d/'
+systemd_system_dir = '/etc/systemd/system/'
+
+gunicorn_system_socket_file = $systemd_system_dir + 'gunicorn.socket'
+gunicorn_system_service_file = $systemd_system_dir + 'gunicorn.service'
+
+pgdg_source_list_file = $source_list_dir + 'pgdg.list'
+nginx_source_list_file = $source_list_dir + 'nginx.list'
+
+pg_main_conf_dir = '/etc/postgresql/11/main/'
+
+pg_hba_conf_file = $pg_main_conf_dir + 'pg_hba.conf'
+
 sudo apt update
 sudo apt install python3-pip python3-dev libpq-dev curl -y
 
-sudo rm /etc/apt/sources.list.d/pgdg.list
-sudo touch /etc/apt/sources.list.d/pgdg.list
-sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
+sudo rm $pgdg_source_list_file
+sudo touch $pgdg_source_list_file
+sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> $pgdg_source_list_file
 
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt update
 
 sudo apt install postgresql-11 postgresql-client-11 -y
 
+sudo cp $app_pg_conf_file $pg_hba_conf_file
+
+sudo service postgresql restart
+
 sudo psql -U postgres -d postgres -a -f database.sql
 
 sudo -H pip3 install --upgrade pip
 sudo -H pip3 install pipenv
 
-cd /home/ubuntu/app/ThelastProjectBackend/app
+cd $app_dir
 
 pipenv install --skip-lock
 pipenv run python manage.py makemigrations
 pipenv run python manage.py migrate
 pipenv run python manage.py collectstatic
 
-sudo rm /etc/systemd/system/gunicorn.socket
+sudo cp $app_gunicorn_socket_file $gunicorn_system_socket_file
 
-sudo touch /etc/systemd/system/gunicorn.socket
+sudo cp $app_gunicorn_service_file $gunicorn_system_service_file
 
-sudo cat >> /etc/systemd/system/gunicorn.socket <<EOL
-[Unit]
-Description=gunicorn socket
-
-[Socket]
-ListenStream=/run/gunicorn.sock
-
-[Install]
-WantedBy=sockets.target
-EOL
-
-sudo rm /etc/systemd/system/gunicorn.service
-
-sudo touch /etc/systemd/system/gunicorn.service
-
-sudo cat >> /etc/systemd/system/gunicorn.service <<EOL
-[Unit]
-Description=gunicorn daemon
-Requires=gunicorn.socket
-After=network.target
-
-[Service]
-User=ubuntu
-Group=www-data
-WorkingDirectory=/home/ubuntu/app/ThelastProjectBackend/app
-ExecStart=/usr/local/bin/pipenv run gunicorn \
-          --access-logfile - \
-          --workers 3 \
-          --bind unix:/run/gunicorn.sock \
-          project.wsgi:application
-
-[Install]
-WantedBy=multi-user.target
-EOL
-sudo systemctl daemon-reload
 sudo systemctl start gunicorn.socket
 sudo systemctl enable gunicorn.socket
 
 sudo systemctl daemon-reload
 sudo systemctl restart gunicorn
-systemctl daemon-reload
 
 # installing Nginx Frontend Server
 sudo apt install curl gnupg2 ca-certificates lsb-release -y
 
-sudo rm /etc/apt/sources.list.d/nginx.list
+sudo rm $nginx_source_list_file
 echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
-    | sudo tee /etc/apt/sources.list.d/nginx.list
+    | sudo tee $nginx_source_list_file
 
 curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo apt-key add -
 sudo apt-key fingerprint ABF5BD827BD9BF62
@@ -83,32 +80,7 @@ sudo apt-key fingerprint ABF5BD827BD9BF62
 sudo apt update
 sudo apt install nginx -y
 
-sudo rm /etc/nginx/conf.d/boka.conf
-
-sudo touch /etc/nginx/conf.d/boka.conf
-host = '$host'
-remote_addr = '$remote_addr'
-proxy_add_x_forwarded_for = '$proxy_add_x_forwarded_for'
-scheme = '$scheme'
-sudo cat >> /etc/nginx/conf.d/boka.conf <<EOL
-server {
-    listen 80;
-    server_name 157.245.106.188;
-
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location /assets/ {
-        root /home/ubuntu/app/ThelastProjectBackend/app/statics;
-    }
-
-    location / {
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_pass http://unix:/run/gunicorn.sock;
-    }
-}
-EOL
+sudo cp $app_nginx_conf_file $nginx_boka_conf_dir
 
 sudo nginx -t
 sudo nginx -s reload
