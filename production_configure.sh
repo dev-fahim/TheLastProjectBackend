@@ -1,7 +1,7 @@
 #!/bin/sh
 
 home_dir=/home/ubuntu/
-work_dir=${home_dir}app/TheLastProjectBackend/
+work_dir=${home_dir}app/ThelastProjectBackend/
 app_dir=${work_dir}app/
 
 app_gunicorn_dir=${work_dir}gunicorn_files/
@@ -41,7 +41,7 @@ sudo apt update
 
 sudo apt install postgresql-11 postgresql-client-11 -y
 
-sudo cp $app_pg_conf_file $pg_hba_conf_file
+sudo cp -f $app_pg_conf_file $pg_hba_conf_file
 
 sudo service postgresql restart
 
@@ -57,9 +57,9 @@ pipenv run python manage.py makemigrations
 pipenv run python manage.py migrate
 pipenv run python manage.py collectstatic
 
-sudo cp $app_gunicorn_socket_file $gunicorn_system_socket_file
+sudo cp -f $app_gunicorn_socket_file $gunicorn_system_socket_file
 
-sudo cp $app_gunicorn_service_file $gunicorn_system_service_file
+sudo cp -f $app_gunicorn_service_file $gunicorn_system_service_file
 
 sudo systemctl start gunicorn.socket
 sudo systemctl enable gunicorn.socket
@@ -80,7 +80,7 @@ sudo apt-key fingerprint ABF5BD827BD9BF62
 sudo apt update
 sudo apt install nginx -y
 
-sudo cp $app_nginx_conf_file $nginx_boka_conf_dir
+sudo cp -f $app_nginx_conf_file $nginx_boka_conf_dir
 
 sudo nginx -t
 sudo nginx -s reload
