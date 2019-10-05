@@ -1,7 +1,7 @@
 #!/bin/sh
 
 home_dir=/home/ubuntu/
-work_dir=${home_dir}app/TheLastProject/
+work_dir=${home_dir}app/TheLastProjectBackend/
 app_dir=${work_dir}app/
 
 app_gunicorn_dir=${work_dir}gunicorn_files/
