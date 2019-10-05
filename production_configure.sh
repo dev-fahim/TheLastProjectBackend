@@ -52,11 +52,10 @@ sudo service postgresql restart
 sudo psql -U postgres -d postgres -a -f database.sql
 
 printf "\nInstalling memcached...\n\n"
-sudo apt install libevent-dev -y
-wget http://memcached.org/latest
-tar -zxvf memcached-1.5.19.tar.gz
-cd memcached-1.5.19
-./configure && make && make test && sudo make install
+sudo apt install memcached libmemcached-tools -y
+systemctl start memcached
+systemctl enable memcached
+systemctl restart memcached
 
 printf "\nInstalling pipenv...\n\n"
 sudo -H pip3 install --upgrade pip
