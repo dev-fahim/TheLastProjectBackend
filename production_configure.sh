@@ -95,6 +95,9 @@ sudo apt install nginx -y
 
 sudo cp -f $app_nginx_conf_file $nginx_boka_conf_dir
 
+nginx -c /etc/nginx/nginx.conf
+nginx -s reload
+
 sudo nginx -t
 sudo nginx -s reload
 
