@@ -51,6 +51,13 @@ sudo service postgresql restart
 
 sudo psql -U postgres -d postgres -a -f database.sql
 
+printf "\nInstalling memcached...\n\n"
+sudo apt install libevent-dev
+wget http://memcached.org/latest
+tar -zxvf memcached-1.5.19.tar.gz
+cd memcached-1.5.19
+./configure && make && make test && sudo make install
+
 printf "\nInstalling pipenv...\n\n"
 sudo -H pip3 install --upgrade pip
 sudo -H pip3 install pipenv
@@ -74,10 +81,9 @@ sudo systemctl enable gunicorn.socket
 sudo systemctl daemon-reload
 sudo systemctl restart gunicorn
 
-# installing Nginx Frontend Server
+printf "\nInstall Nginx as a Frontend server...\n\n"
 sudo apt install curl gnupg2 ca-certificates lsb-release -y
 
-printf "\nInstall Nginx as a Frontend server...\n\n"
 sudo rm $nginx_source_list_file
 echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
     | sudo tee $nginx_source_list_file
