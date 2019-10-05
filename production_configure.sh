@@ -32,7 +32,7 @@ pg_hba_conf_file=${pg_main_conf_dir}pg_hba.conf
 sudo apt update
 sudo apt install python3-pip python3-dev libpq-dev curl -y
 
-printf "\nInstalling PostgreSQL-11 Database Server...\n"
+printf "\nInstalling PostgreSQL-11 Database Server...\n\n"
 sudo rm $pgdg_source_list_file
 sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> $pgdg_source_list_file
 
@@ -41,13 +41,14 @@ sudo apt update
 
 sudo apt install postgresql-11 postgresql-client-11 -y
 
-printf "\nCreating database...\n"
+printf "\nCreating database...\n\n"
 sudo cp -f $app_pg_conf_file $pg_hba_conf_file
 
 sudo service postgresql restart
 
 sudo psql -U postgres -d postgres -a -f database.sql
 
+printf "\nInstalling pipenv...\n\n"
 sudo -H pip3 install --upgrade pip
 sudo -H pip3 install pipenv
 
@@ -58,7 +59,7 @@ pipenv run python manage.py makemigrations
 pipenv run python manage.py migrate
 pipenv run python manage.py collectstatic
 
-printf "\nConfiguring Gunicorn as a system service for Django application...\n"
+printf "\nConfiguring Gunicorn as a system service for Django application...\n\n"
 sudo cp -f $app_gunicorn_socket_file $gunicorn_system_socket_file
 
 sudo cp -f $app_gunicorn_service_file $gunicorn_system_service_file
@@ -72,7 +73,7 @@ sudo systemctl restart gunicorn
 # installing Nginx Frontend Server
 sudo apt install curl gnupg2 ca-certificates lsb-release -y
 
-printf "\nInstall Nginx as a Frontend server...\n"
+printf "\nInstall Nginx as a Frontend server...\n\n"
 sudo rm $nginx_source_list_file
 echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
     | sudo tee $nginx_source_list_file
@@ -88,5 +89,5 @@ sudo cp -f $app_nginx_conf_file $nginx_boka_conf_dir
 sudo nginx -t
 sudo nginx -s reload
 
-printf "\nConfiguring firewall for allowing HTTP...\n"
+printf "\nConfiguring firewall for allowing HTTP...\n\n"
 sudo ufw allow 80
