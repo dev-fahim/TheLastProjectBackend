@@ -1,6 +1,6 @@
 #!/bin/sh
 
-home_dir = /home/ubuntu/
+home_dir=/home/ubuntu/
 work_dir = $home_dir + app/TheLastProject/
 app_dir = $work_dir + app/
 
