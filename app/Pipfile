@@ -25,9 +25,10 @@ text-unidecode = "==1.2"
 django-heroku = "*"
 gunicorn = "*"
 Django = "==2.2.4"
-PyJWT = "==1.7.1"
+PyJWT = {extras = ["crypto"],version = "*"}
 psycopg2-binary = "*"
 psycopg2 = "*"
+cryptography = "*"
 
 [requires]
 python_version = "3.6"
