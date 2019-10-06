@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import datetime
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.serialization import load_pem_private_key
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,6 +28,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['157.245.106.188']
+
+if DEBUG:
+    ALLOWED_HOSTS.append('127.0.0.1')
 
 
 # Application definition
@@ -160,7 +165,12 @@ USE_TZ = True
 
 STATIC_URL = '/assets/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'statics'),
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -192,7 +202,11 @@ JWT_AUTH = {
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,
     'JWT_PUBLIC_KEY': open(os.environ.get('PUBLIC_KEY')).read(),
-    'JWT_PRIVATE_KEY': open(os.environ.get('PRIVATE_KEY')).read(),
+    'JWT_PRIVATE_KEY': load_pem_private_key(
+        open(os.environ.get('PRIVATE_KEY'), "rb").read(),
+        bytes(os.environ.get('PASSPHASE').encode()),
+        default_backend()
+    ),
     'JWT_ALGORITHM': 'RS256',
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
