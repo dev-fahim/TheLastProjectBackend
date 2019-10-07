@@ -14,6 +14,7 @@ import os
 import datetime
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get('DEBUG'))
 
 ALLOWED_HOSTS = ['157.245.106.188']
 
@@ -219,8 +220,7 @@ JWT_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
-    'JWT_AUTH_COOKIE': None,
-
+    'JWT_AUTH_COOKIE': None
 }
 
 REST_USE_JWT = True
