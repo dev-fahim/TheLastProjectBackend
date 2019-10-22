@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get('DEBUG'))
+DEBUG = bool(int(os.environ.get('DEBUG')))
 
 ALLOWED_HOSTS = ['157.245.106.188']
 
@@ -52,21 +52,30 @@ INSTALLED_APPS = [
     'menu',
     'bill',
     'extra_expend',
-    'debug_toolbar',
-    'sumup'
+    'sumup',
 ]
 
+
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+
+    INSTALLED_APPS.append('debug_toolbar')
+
+    INTERNAL_IPS = ('127.0.0.1', )
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+    }
 
 ROOT_URLCONF = 'project.urls'
 
@@ -96,9 +105,13 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
     }
 }
+
+
+# Database
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 if DEBUG is False:
     DATABASES = {

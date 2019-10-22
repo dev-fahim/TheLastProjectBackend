@@ -38,18 +38,17 @@ urlpatterns = [
             path('inventory/', include('inventory.api.urls', namespace='inventory'), name='inventory'),
             path('bill/', include('bill.api.urls', namespace='bill'), name='bill'),
             path('menu/', include('menu.api.urls', namespace='menu'), name='menu'),
+            path('sumup/', include('sumup.api', namespace='sumup'), name='sumup'),
         ]), name='app'),
-        path('sumup/', include('sumup.api', namespace='sumup'), name='sumup'),
     ])),
     re_path(r"^$", TemplateView.as_view(template_name='index.html')),
-]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
 
-if settings.DEBUG:
+if settings.DEBUG is True:
     import debug_toolbar
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
+    urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)))
 
-        # For django versions before 2.0:
-        # url(r'^__debug__/', include(debug_toolbar.urls)),
+if settings.DEBUG is False:
+    urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-    ] + urlpatterns
+print(settings.DEBUG)
