@@ -9,7 +9,7 @@ verify_ssl = true
 argon2-cffi = "==19.1.0"
 cffi = "==1.12.3"
 django-cors-headers = "==3.1.0"
-django-debug-toolbar = "==2.0"
+django-debug-toolbar = "==2.2"
 django-rest-auth = "==0.9.5"
 djangorestframework = "==3.9.4"
 djangorestframework-jwt = "==1.11.0"
