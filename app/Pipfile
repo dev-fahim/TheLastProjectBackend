@@ -24,7 +24,7 @@ sqlparse = "==0.3.0"
 text-unidecode = "==1.2"
 django-heroku = "*"
 gunicorn = "*"
-Django = "==2.2.4"
+Django = "==2.2.24"
 PyJWT = {extras = ["crypto"],version = "*"}
 psycopg2-binary = "*"
 psycopg2 = "*"
